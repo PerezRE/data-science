@@ -1,2 +1,2 @@
-# datascience
-Data Science postworks.
+# Data Science
+Postworks del curso de Data Science.
