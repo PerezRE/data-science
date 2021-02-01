@@ -39,7 +39,7 @@ dtc$find('{"Date":"2015-12-20", "$or":[{"HomeTeam":"Real Madrid"}, {"AwayTeam":"
 dtc <- mongo(
   collection = "mtcars",
   db = "match_games",
-  url = "mongodb+srv://jesus_intrombd:Mi6FNYPu8WVFwHy@cluster0.dpiav.mongodb.net/test"
+  url = "mongodb+srv://local"
 )
 
 dtc$insert(mtcars)
