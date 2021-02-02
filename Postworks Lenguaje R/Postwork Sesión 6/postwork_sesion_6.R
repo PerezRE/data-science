@@ -30,9 +30,9 @@ match.data.csv
 # 3. Crea la serie de tiempo del promedio por mes de la suma de goles hasta diciembre de 2019.
 
 date.start   <- match.data.csv$dates[1]
-serie.tiempo <- ts(match.data.csv$promedio_goles_mes, start = c(year(date.start), month(date.start), day(date.start)), 
+time.serie <- ts(match.data.csv$promedio_goles_mes, start = c(year(date.start), month(date.start), day(date.start)), 
                 end = c(2019, 12, 1), frequency = 12)
 
-plot(serie.tiempo, xlab = "Años", ylab = "Promedio")
-title(main = "ts del promedio de goles por mes")
+plot(time.serie, xlab = "Años", ylab = "Promedio")
+title(main = "ts: promedio de goles por mes")
 

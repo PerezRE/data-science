@@ -8,20 +8,21 @@
 
 library(dplyr)
 
-liga.2019.2020 <- read.csv("https://www.football-data.co.uk/mmz4281/1920/SP1.csv")
-liga.2018.2019 <- read.csv("https://www.football-data.co.uk/mmz4281/1819/SP1.csv")
-liga.2017.2018 <- read.csv("https://www.football-data.co.uk/mmz4281/1718/SP1.csv")
+league.2019.2020 <- read.csv("https://www.football-data.co.uk/mmz4281/1920/SP1.csv")
+league.2018.2019 <- read.csv("https://www.football-data.co.uk/mmz4281/1819/SP1.csv")
+league.2017.2018 <- read.csv("https://www.football-data.co.uk/mmz4281/1718/SP1.csv")
 
-SmallData <- list(liga.2019.2020, liga.2018.2019, liga.2017.2018)
+SmallData <- list(league.2019.2020, league.2018.2019, league.2017.2018)
 
 SmallData <- lapply(SmallData, select, Date, HomeTeam, FTHG, AwayTeam,  FTAG)
 
 SmallData[1:2] <- SmallData[1:2] %>% 
-  lapply(mutate, Date = as.Date(Date, format = "%d/%m/%Y")) %>%
-  lapply(rename, date = Date, home.team = HomeTeam, home.score = FTHG, away.team = AwayTeam, away.score = FTAG)
+  lapply(mutate, Date = as.Date(Date, format = "%d/%m/%Y"))
 
 SmallData[3]   <- SmallData[3]   %>% 
-  lapply(mutate, Date = as.Date(Date, format = "%d/%m/%y")) %>%
+  lapply(mutate, Date = as.Date(Date, format = "%d/%m/%y"))
+  
+SmallData   <- SmallData   %>% 
   lapply(rename, date = Date, home.team = HomeTeam, home.score = FTHG, away.team = AwayTeam, away.score = FTAG)
 
 SmallData <- do.call("rbind", SmallData)

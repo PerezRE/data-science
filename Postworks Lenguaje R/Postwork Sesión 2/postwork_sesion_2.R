@@ -1,36 +1,36 @@
-#Postwork 2
+## Postwork Sesión 2
 
 #1. Importa los datos de soccer de las temporadas 2017/2018, 2018/2019 y 2019/2020 
 #   de la primera división de la liga española a R
 
 # Manejo individual
-liga.2019.2020 <- read.csv("https://www.football-data.co.uk/mmz4281/1920/SP1.csv")
-liga.2018.2019 <- read.csv("https://www.football-data.co.uk/mmz4281/1819/SP1.csv")
-liga.2017.2018 <- read.csv("https://www.football-data.co.uk/mmz4281/1718/SP1.csv")
+league.2019.2020 <- read.csv("https://www.football-data.co.uk/mmz4281/1920/SP1.csv")
+league.2018.2019 <- read.csv("https://www.football-data.co.uk/mmz4281/1819/SP1.csv")
+league.2017.2018 <- read.csv("https://www.football-data.co.uk/mmz4281/1718/SP1.csv")
 
 # Manejo en forma de lista
-ligas <- list(liga.2019.2020, liga.2018.2019, liga.2017.2018)
+leagues <- list(league.2019.2020, league.2018.2019, league.2017.2018)
 
 #2. Obten una mejor idea de las características de los data frames al usar las 
 #funciones: str, head, View y summary
 
 #Temporada 2019-2020
-str(liga.2019.2020)
-head(liga.2019.2020)
-View(liga.2019.2020)
-summary(liga.2019.2020)
+str(league.2019.2020)
+head(league.2019.2020)
+View(league.2019.2020)
+summary(league.2019.2020)
 
 #Temporada 2018-2019
-str(liga.2018.2019)
-head(liga.2018.2019)
-View(liga.2018.2019)
-summary(liga.2018.2019)
+str(league.2018.2019)
+head(league.2018.2019)
+View(league.2018.2019)
+summary(league.2018.2019)
 
 #Temporada 2017-2018
-str(liga.2017.2018)
-head(liga.2017.2018)
-View(liga.2017.2018)
-summary(liga.2017.2018)
+str(league.2017.2018)
+head(league.2017.2018)
+View(league.2017.2018)
+summary(league.2017.2018)
 
 # 3. Con la función select del paquete dplyr selecciona únicamente las columnas 
 # Date, HomeTeam, AwayTeam, FTHG, FTAG y FTR; esto para cada uno de los data frames. 
@@ -39,12 +39,12 @@ summary(liga.2017.2018)
 library(dplyr)
 
 # Individual
-liga.2019.2020 <- liga.2019.2020 %>% select(Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR)
-liga.2018.2019 <- liga.2018.2019 %>% select(Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR)
-liga.2017.2018 <- liga.2017.2018 %>% select(Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR)
+league.2019.2020 <- league.2019.2020 %>% select(Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR)
+league.2018.2019 <- league.2018.2019 %>% select(Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR)
+league.2017.2018 <- league.2017.2018 %>% select(Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR)
 
 # De manera geneal con lapply
-ligas <- lapply(ligas, select, Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR)
+leagues <- lapply(leagues, select, Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR)
 
 # 4. Asegúrate de que los elementos de las columnas correspondientes de los nuevos 
 # data frames sean del mismo tipo (Hint 1: usa as.Date y mutate para arreglar las fechas).
@@ -62,36 +62,37 @@ ligas <- lapply(ligas, select, Date, HomeTeam, AwayTeam, FTHG, FTAG, FTR)
 # %Y            año (con cuatro dígitos)
 
 # Individual
-liga.2019.2020 <- liga.2019.2020 %>% mutate(Date = as.Date(Date, format = "%d/%m/%Y"))
-liga.2018.2019 <- liga.2018.2019 %>% mutate(Date = as.Date(Date, format = "%d/%m/%Y"))
-liga.2017.2018 <- liga.2017.2018 %>% mutate(Date = as.Date(Date, format = "%d/%m/%y"))  # Este formato es diferente
+league.2019.2020 <- league.2019.2020 %>% mutate(Date = as.Date(Date, format = "%d/%m/%Y"))
+league.2018.2019 <- league.2018.2019 %>% mutate(Date = as.Date(Date, format = "%d/%m/%Y"))
+league.2017.2018 <- league.2017.2018 %>% mutate(Date = as.Date(Date, format = "%d/%m/%y"))  # Este formato es diferente
 
 # Utilizando la lista 
 
-ligas[1:2] <- ligas[1:2] %>% lapply(mutate, Date = as.Date(Date, format = "%d/%m/%Y"))
-ligas[3]   <- ligas[3]   %>% lapply(mutate, Date = as.Date(Date, format = "%d/%m/%y"))  # Este formato es diferente
+leagues[1:2] <- leagues[1:2] %>% lapply(mutate, Date = as.Date(Date, format = "%d/%m/%Y"))
+leagues[3]   <- leagues[3]   %>% lapply(mutate, Date = as.Date(Date, format = "%d/%m/%y"))  # Este formato es diferente
 
 # * Con ayuda de la función rbind forma un único data frame que contenga las seis 
 # columnas mencionadas en el punto 3 (Hint 2: la función do.call podría ser utilizada).
 
 # Unión de los individuales
-ligas.union <- rbind(liga.2019.2020, liga.2018.2019, liga.2017.2018)
+leagues.union <- rbind(league.2019.2020, league.2018.2019, league.2017.2018)
 
 # Unión utilizando do.call
-ligas.union.do <- do.call("rbind", ligas)
+leagues.union.do <- do.call("rbind", leagues)
 
 
 # ======================== Ordenar data frame por fecha ===============================
 
-ligas.union    <- arrange(ligas.union,    Date)
-ligas.union.do <- arrange(ligas.union.do, Date)
+leagues.union    <- arrange(leagues.union,    Date)
+leagues.union.do <- arrange(leagues.union.do, Date)
 
 # Comprueba que da el mismo resultado de las dos formas
-identical(ligas.union, ligas.union.do)
+identical(leagues.union, leagues.union.do)
 
+head(leagues.union)
 # ================================ Paso adicional =====================================
 
 # Guarda data frame como csv para postwork 3
-write.csv( ligas.union, file = "data_frame_postwork2.csv", row.names = F)
+write.csv( leagues.union, file = "data_frame_postwork2.csv", row.names = F)
 
 

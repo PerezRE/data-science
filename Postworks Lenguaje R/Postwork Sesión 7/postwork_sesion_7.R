@@ -31,16 +31,16 @@ dtc$count()
 
 dtc$find('{"Date":"2015-12-20", "$or":[{"HomeTeam":"Real Madrid"}, {"AwayTeam":"Real Madrid"}]}')
 
-# No se encuentra la fecha especificada. Comprobación del data.csv
+# No se encuentro en la consulta la fecha especificada.
 
 
 # * Agrega el dataset de mtcars a la misma BDD Por último, no olvides cerrar la conexión con la BDD.
 
 dtc <- mongo(
-  collection = "mtcars",
-  db = "match_games",
-  url = "mongodb+srv://local"
-)
+        collection = "mtcars",
+        db = "match_games",
+        url = "mongodb+srv://local"
+        )
 
 dtc$insert(mtcars)
 dtc$find()
