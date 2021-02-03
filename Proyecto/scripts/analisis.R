@@ -64,9 +64,6 @@ ggplot(videogames) +
   xlab("Videojuego") + 
   theme_light()
 
-
-dev.off()
-
 # Obtener las probablidades de que cada género sea jugado.
 
 # Contraste de hipótesis (Aquí no se que carajos se hace, porque sé como interpretar este tema).
