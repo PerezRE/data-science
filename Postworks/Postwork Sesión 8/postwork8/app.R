@@ -1,4 +1,3 @@
-
 library(shiny)
 library(class)
 library(dplyr)
@@ -88,6 +87,5 @@ server <- function(input, output) {
     })
     
 }
-
 
 shinyApp(ui, server)
