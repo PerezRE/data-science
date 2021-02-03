@@ -39,11 +39,7 @@ ui <-
                               height = 350, width = 450)
                          
                 ),             
-                tabPanel("Match data", dataTableOutput("data_table")),
-                tabPanel("Factores de ganancia", 
-                         img( src = "factor_ganancia.png", 
-                              height = 350, width = 450)
-                        )
+                tabPanel("Match data", dataTableOutput("data_table"))
             )
         )
     )
