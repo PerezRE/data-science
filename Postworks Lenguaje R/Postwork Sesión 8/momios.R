@@ -1,11 +1,10 @@
-
 library(fbRanks)
 library(dplyr)
 library(ggplot2)
 
 
 
-# Colocar el directorio de trabajo según corresponda
+# Colocar el directorio de trabajo segun corresponda
 
 #setwd(choose.dir(caption = "Directorio"))
   
@@ -143,14 +142,14 @@ head(teams, n = 2L); dim(teams); head(scores, n = 2L); dim(scores)
 
  
 f <- scores$date # Fechas de partidos
-fu <- unique(f) # Fechas sin repetición
-Ym <- format(fu, "%Y-%m") # Meses y años
-Ym <- unique(Ym) # Meses y años sin repetir
+fu <- unique(f) # Fechas sin repetici?n
+Ym <- format(fu, "%Y-%m") # Meses y a?os
+Ym <- unique(Ym) # Meses y a?os sin repetir
 places <- which(Ym[15]==format(scores$date, "%Y-%m")) # Consideramos partidos de 15 meses para comenzar a ajustar el modelo
 ffe <- scores$date[max(places)] # Fecha final conjunto de entrenamiento
   
 
-#Consideraremos partidos de 15 meses para comenzar a ajustar el modelo. Así, nuestro primer conjunto de entrenamiento consiste de datos de partidos hasta el `r ffe` 
+#Consideraremos partidos de 15 meses para comenzar a ajustar el modelo. As?, nuestro primer conjunto de entrenamiento consiste de datos de partidos hasta el `r ffe` 
 
  
 train <- scores %>% filter(date <= ffe)
@@ -177,7 +176,7 @@ ranks <- rank.teams(scores = scores, teams = teams,
                     max.date = traindate[length(traindate)])
   
 
-# Primera predicción
+# Primera predicci?n
 
 
  
@@ -234,15 +233,15 @@ as <- momio$away.score
 
 
  
-mean(phs + pas > 3) # proporción de partidos con más de tres goles según el modelo
+mean(phs + pas > 3) # proporci?n de partidos con m?s de tres goles seg?n el modelo
 mean(phs + pas > 3 & hs + as > 2.5)/mean(phs + pas > 3) 
 # probabilidad condicional estimada de ganar en over 2.5
-mean(phs + pas < 2.1) # proporción de partidos con menos de 2.1 goles según el modelo
+mean(phs + pas < 2.1) # proporci?n de partidos con menos de 2.1 goles seg?n el modelo
 mean(phs + pas < 2.1 & hs + as < 2.5)/mean(phs + pas < 2.1) 
 # probabilidad condicional estimada de ganar en under 2.5
   
 
-# Apuestas con momios máximos
+# Apuestas con momios m?ximos
 
 
  
@@ -263,17 +262,17 @@ for(j in 1:length(phs)){
 }
   
 
-# Escenario con momios máximos
+# Escenario con momios m?ximos
 
  
 g <- data.frame(Num_Ap = 1:length(g), Capital = g)
 p <- ggplot(g, aes(x=Num_Ap, y=Capital)) + geom_line( color="purple") + geom_point() +
-  labs(x = "Número de Apuesta", 
+  labs(x = "N?mero de Apuesta", 
        y = "Capital",
        title = "Realizando una secuencia de apuestas") +
   theme(plot.title = element_text(size=12))  +
   theme(axis.text.x = element_text(face = "bold", color="blue" , size = 10, angle = 25, hjust = 1),
-        axis.text.y = element_text(face = "bold", color="blue" , size = 10, angle = 25, hjust = 1))  # color, ángulo y estilo de las abcisas y ordenadas 
+        axis.text.y = element_text(face = "bold", color="blue" , size = 10, angle = 25, hjust = 1))  # color, ?ngulo y estilo de las abcisas y ordenadas 
 p
   
 
@@ -300,11 +299,11 @@ for(j in 1:length(phs)){
  
 g <- data.frame(Num_Ap = 1:length(g), Capital = g)
 p <- ggplot(g, aes(x=Num_Ap, y=Capital)) + geom_line( color="purple") + geom_point() +
-  labs(x = "Número de Apuesta", 
+  labs(x = "N?mero de Apuesta", 
        y = "Capital",
        title = "Realizando una secuencia de apuestas") +
   theme(plot.title = element_text(size=12))  +
   theme(axis.text.x = element_text(face = "bold", color="blue" , size = 10, angle = 25, hjust = 1),
-        axis.text.y = element_text(face = "bold", color="blue" , size = 10, angle = 25, hjust = 1))  # color, ángulo y estilo de las abcisas y ordenadas 
+        axis.text.y = element_text(face = "bold", color="blue" , size = 10, angle = 25, hjust = 1))  # color, ?ngulo y estilo de las abcisas y ordenadas 
 p
   
