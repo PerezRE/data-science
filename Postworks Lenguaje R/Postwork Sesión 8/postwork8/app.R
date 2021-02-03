@@ -5,7 +5,8 @@ library(dplyr)
 library(shinydashboard)
 library(ggplot2)
 
-match.data <- read.csv(choose.files())  # Buscamos donde se encuentra data table
+#match.data <- read.csv(choose.files())  # Buscamos donde se encuentra data table
+match.data <- read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Postworks%20Lenguaje%20R/Postwork%20Sesi%C3%B3n%208/match.data.csv")
 
 ui <- 
     
@@ -28,11 +29,6 @@ ui <-
                               height = 350, width = 450)
                 ),
                 
-                tabPanel("Plots",                   
-                         h3(textOutput("output_text")), 
-                         plotOutput("output_plot"), 
-                ),
-                
                 tabPanel("Postwork 3",
                          img( src = "marginal-home.png", 
                               height = 350, width = 450),
@@ -41,10 +37,8 @@ ui <-
                          img( src = "heatmap-conjun.png", 
                               height = 350, width = 450)
                          
-                ),
-                
-                tabPanel("Table", tableOutput("table")),                 
-                tabPanel("Data Table", dataTableOutput("data_table"))
+                ),             
+                tabPanel("Match data", dataTableOutput("data_table"))
             )
         )
     )
@@ -54,22 +48,9 @@ ui <-
 
 server <- function(input, output) {
     
-    
-    output$output_text <- renderText(paste("mpg~", input$x))
-    
-    # Gráficas
-    output$output_plot <- renderPlot({ plot( as.formula(paste("mpg ~", input$x)),
-                                             data = mtcars) })
-    
-    output$summary <- renderPrint({ summary(mtcars)})
-    
-    output$table <- renderTable({ 
-        data.frame(mtcars)
-    })
-    
-    output$data_table <- renderDataTable({mtcars}, 
-                                         options = list(aLengthMenu = c(5,25,50),
-                                                        iDisplayLength = 5))
+    output$data_table <- renderDataTable({match.data}, 
+                                         options = list(aLengthMenu = c(20,40,60),
+                                                        iDisplayLength = 20))
 }
 
 
