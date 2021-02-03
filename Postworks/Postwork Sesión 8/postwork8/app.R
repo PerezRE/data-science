@@ -5,11 +5,9 @@ library(shinydashboard)
 library(ggplot2)
 
 #match.data <- read.csv(choose.files())  # Buscamos donde se encuentra data table
-match.data <- read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Postworks%20Lenguaje%20R/Postwork%20Sesi%C3%B3n%208/match.data.csv")
-
+match.data <- read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Postworks/Postwork%20Sesi%C3%B3n%208/match.data.csv")
 
 ui <- 
-    
     pageWithSidebar(
         headerPanel("Postwork 8"),
         sidebarPanel(
@@ -19,8 +17,6 @@ ui <-
                           "Visitante" = "visitante"))
         ),
         mainPanel(
-            
-            
             # Agregando 4 pestañas
             tabsetPanel(
                 tabPanel("Datos Momio",
@@ -43,7 +39,11 @@ ui <-
                               height = 350, width = 450)
                          
                 ),             
-                tabPanel("Match data", dataTableOutput("data_table"))
+                tabPanel("Match data", dataTableOutput("data_table")),
+                tabPanel("Factores de ganancia", 
+                         img( src = "factor_ganancia.png", 
+                              height = 350, width = 450)
+                        )
             )
         )
     )
@@ -77,11 +77,9 @@ server <- function(input, output) {
     output$output_plot_face <- renderPlot({
         b<- ggplot(match.data, aes(x = home.score, y = away.score)) + 
             geom_bar(stat = "identity") +
-            ggtitle(paste0("Equipo ")) +
+            ggtitle("Equipo ") +
             labs(x = "Goles Local", y = "Goles Visitante") +
-            theme(
-                legend.position="none"
-            )+
+            theme(legend.position="none") +
             facet_wrap("away.team")
         return(b)
     })
