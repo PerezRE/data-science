@@ -41,7 +41,7 @@ library(fbRanks)
 # listasoccer <- create.fbRanks.dataframes(scores.file = "soccer.csv", date.format="%Y-%m-%d")
 
 # Abrir archivo desde repositorio
-url.soccer <- "https://raw.githubusercontent.com/PerezRE/datascience/Develop/Postworks%20Lenguaje%20R/Postwork%20Sesi%C3%B3n%205/soccer.csv"
+url.soccer <- "https://raw.githubusercontent.com/PerezRE/datascience/main/Postworks%20Lenguaje%20R/Postwork%20Sesi%C3%B3n%205/soccer.csv"
 listasoccer <- create.fbRanks.dataframes(scores.file = url.soccer, date.format="%Y-%m-%d")
 
 anotaciones <- listasoccer$scores

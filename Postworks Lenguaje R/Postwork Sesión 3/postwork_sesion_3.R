@@ -6,7 +6,7 @@
 # setwd(choose.dir(caption = "Selecciona el directorio de trabajo"))    # Ayuda a establecer directorio de trabajo
 
 # leagues <- read.csv("data_frame_postwork2.csv", header = T)            # Carga último data frame creado
-leagues <- read.csv("https://raw.githubusercontent.com/PerezRE/datascience/Develop/Postworks%20Lenguaje%20R/Postwork%20Sesi%C3%B3n%202/data_frame_postwork2.csv", header = T)
+leagues <- read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Postworks%20Lenguaje%20R/Postwork%20Sesi%C3%B3n%202/data_frame_postwork2.csv", header = T)
 
 # * La probabilidad (marginal) de que el equipo que juega en casa anote x goles (x=0,1,2,)
 
@@ -38,7 +38,11 @@ library(ggplot2)
 marginal.home <- ggplot(h.freq.table, aes(x = Var1, y = Freq, fill = Var1)) + 
   geom_bar(stat = "identity") +
   ggtitle("Equipo Local - Probabilidad marginal") +
-  labs(x = "Goles", y = "Probabilidad")
+  labs(x = "Goles", y = "Probabilidad") + 
+  theme(
+    legend.position="none"
+  )
+
 
 marginal.home
 
@@ -48,7 +52,10 @@ marginal.home
 marginal.away <- ggplot(a.freq.table, aes(x = Var1, y = Freq, fill = Var1)) + 
   geom_bar(stat = "identity") +
   ggtitle("Equipo Visitante - Probabilida marginal") +
-  labs(x = "Goles", y = "Probabilidad")
+  labs(x = "Goles", y = "Probabilidad") +
+  theme(
+    legend.position="none"
+  )
 
 marginal.away
 

@@ -11,7 +11,7 @@
 #setwd(choose.dir(caption = "Selecciona el directorio de trabajo"))      # Establecer directorio de trabajo
 
 #leagues <- read.csv("data_frame_postwork2.csv", header = T)             # Carga data frame creado 
-leagues  <- read.csv("https://raw.githubusercontent.com/PerezRE/datascience/Develop/Postworks%20Lenguaje%20R/Postwork%20Sesi%C3%B3n%202/data_frame_postwork2.csv", header = T)
+leagues  <- read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Postworks%20Lenguaje%20R/Postwork%20Sesi%C3%B3n%202/data_frame_postwork2.csv", header = T)
 
 # Resumen postwork 2-3
 h.marginal <- as.data.frame(prop.table(table(leagues$FTHG)))
