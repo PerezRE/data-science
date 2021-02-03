@@ -4,7 +4,7 @@ library(ggplot2)
 # TODO: Escribir las interrogantes en el archivo Readme.md (solo están algunas)
 
 # Leemos los datos
-videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/videojuegos_2.csv"))
+videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/videojuegos_2.csv", header=TRUE))
 
 # Revisamos la estructura del data frame
 class(videogames); str(videogames);
@@ -73,20 +73,16 @@ dev.off()
 
 # De diversos géneros, obtener, ¿Qué tan viable es que el genero/videojuego sea jugado por horas?
 
-
-
-# Determinar el precio dado 
-## TODO: 
-# Del ejepmplo: m2 <- lm(Price ~ Food + Decor + East)
-# summary(m2)
-
 # Determinar si el precio es predecido a partir de las variables: 
-#   positive_ratings, negative_ratings, plataforma (Con esto, creo que sería generar tres modelos, es decir, un modelo para cada plataforma: linux, windows, mac), 
-#   average_playtime, meadian_playtime, achivements.
+#   positive_ratings, negative_ratings, plataforma (Con esto, creo que sería generar tres modelos, es decir, un modelo para cada plataforma: linux, windows, mac),
+#   average_playtime, meadian_playtime, achivements, release_date.
+# Y: Price (Precio): el precio (en USD) del videojuego.
+# X1: positive_ratings: Valuación positiva del jugador.
+# X2: negative_ratings: Valuación negativa del jugador.
+# X3: plataforma: Linux, Windows, Mac.
+# X4: average_playtime: Horas jugadas por promedio.
+# X5: achivements: Logros desbloqueables.
+# X6: release_date: Fecha de lanzamiento.
 
-# Y: Price (Precio): el precio (en USD) de la cena
-# X1: positive_ratings: Valuación del cliente de la comida (sacado de 30)
-# X2: negative_ratings: Valuación del cliente de la decoración (sacado de 30)
-# X3: plataforma: Valuación del cliente del servicio (sacado de 30)
-# X4: average_playtime: variable dummy: 1 (0) si el restaurante está al este (oeste) de la quinta avenida
-# X5: achivements: variable dummy: 1 (0) si el restaurante está al este (oeste) de la quinta avenida
+model <- lm(videogames$price ~ videogames$achievements + videogames$release_date)
+summary(model)
