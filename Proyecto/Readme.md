@@ -7,7 +7,6 @@ En el presente repositorio, se pretende realizar un análisis exploratorio de da
 * ¿Qué género resulta más/menos rentable?
 * ¿Qué género se ha jugado en los últimos años?
 * ¿Qué género/videojuego resultó más económico y caro?
-* ¿Cuál videojuego ha sido el más jugado?
 * ¿Cuál género resulta más caro/económico?
 * ¿Cuál videojuego ha sido el más ecónomico/caro?
 * De diversos géneros, obtener, ¿Qué tan viable es que el genero/videojuego sea jugado por horas?
