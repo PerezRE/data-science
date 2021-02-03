@@ -13,28 +13,28 @@ ui <-
     pageWithSidebar(
         headerPanel("Postwork 8"),
         sidebarPanel(
-            p("Crear plots con el DF 'auto'"), 
+            p("Crear plots con el DF 'Momios'"), 
             selectInput("x", "Seleccione el valor de X",
                         choices = names(mtcars))
         ),
         mainPanel(
             
             
-            # Agregando 4 pestañas
+            # Agregando 4 pestaÃ±as
             tabsetPanel(
-                tabPanel("Datos Momio",
-                         img( src = "momios_1.png", 
-                              height = 350, width = 450),
-                         img( src = "momios_2.png", 
-                              height = 350, width = 450)
-                ),
-                
-                tabPanel("Postwork 3",
+                tabPanel("Probabilidades",
                          img( src = "marginal-home.png", 
                               height = 350, width = 450),
                          img( src = "marginal-away.png", 
                               height = 350, width = 450),
                          img( src = "heatmap-conjun.png", 
+                              height = 350, width = 450)
+                ),
+                
+                tabPanel("Postwork 3",
+                         img( src = "momios_1.png", 
+                              height = 350, width = 450),
+                         img( src = "momios_2.png", 
                               height = 350, width = 450)
                          
                 ),             
@@ -44,7 +44,7 @@ ui <-
     )
 
 
-#De aquí en adelante es la parte que corresponde al server
+#De aquÃ­ en adelante es la parte que corresponde al server
 
 server <- function(input, output) {
     
