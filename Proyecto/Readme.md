@@ -4,8 +4,8 @@ En el presente repositorio, se pretende realizar un análisis exploratorio de da
 
 * ¿Qué género/videojuego resultó con mayor/menor descuento?
 * ¿Qué videojuego ha sido el más/menos jugado?
-* ¿Qué género resulta más/menos rentable? (Creo que aquí será alguna regresión lineal?
-* ¿Qué género se ha jugado en los últimos años? (ver tendencia)
+* ¿Qué género resulta más/menos rentable?
+* ¿Qué género se ha jugado en los últimos años?
 * ¿Qué género/videojuego resultó más económico y caro?
 * ¿Cuál videojuego ha sido el más jugado?
 * ¿Cuál género resulta más caro/económico?
