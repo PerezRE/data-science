@@ -4,7 +4,7 @@ library(ggplot2)
 # TODO: Escribir las interrogantes en el archivo Readme.md (solo están algunas)
 
 # Leemos los datos
-videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/videojuegos_2.csv", header=TRUE))
+videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/dataset_2.csv", header=TRUE))
 
 # Eliminar variables redundantes e innecesarias
 videogames <- videogames[, -which(names(videogames) %in% c("X.1", "X", "appid", "Columna1", "Title"))]
