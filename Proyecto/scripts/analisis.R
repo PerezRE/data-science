@@ -1,10 +1,12 @@
 library(dplyr)
 library(ggplot2)
+library(tidyverse)
 
 # TODO: Escribir las interrogantes en el archivo Readme.md (solo están algunas)
 
 # Leemos los datos
-videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/dataset%202.csv", header=TRUE))
+videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/Dataset_Videojuegos.csv", header=TRUE))
+videogames<-videogames%>% filter(genre_Indie=TRUE)
 
 # Revisamos la estructura del data frame
 class(videogames); str(videogames);
@@ -12,19 +14,32 @@ class(videogames); str(videogames);
 # Visualizamos un resumen para cada variable de los datos obtenidos.
 summary(videogames)
 
-# ¿Qué videojuego es el mejor/peor valorado?
+# Correción del data frame
+videogames <- na.omit(videogames)
+videogames <- videogames[!duplicated(videogames$name),]
+videogames <- videogames %>% mutate(release_date = as.Date(release_date, format = "%Y-%m-%d"))
+videogames <- arrange(videogames, release_date)
+names(videogames)
+
+
+#=================== ¿Qué videojuego ha sido el más/menos jugado?==========================
+columns <- c("name", "release_date", "average_playtime", "median_playtime")
+#Menos jugado tomando el promedio
+videogames[which.min(filter(videogames,average_playtime>0)$average_playtime), columns]
+#Mas jugado tomando el promedio
+videogames[which.max(videogames$average_playtime), columns]
+#El menos jugado tomando la media
+videogames[which.min(filter(videogames,median_playtime>0)$median_playtime), columns]
+#El mas jugado tomando la media 
+videogames[which.max(videogames$median_playtime), columns]
+
+#===================== ¿Qué videojuego es el mejor/peor valorado?==========================
 columns <- c("name", "positive_ratings", "negative_ratings", "release_date")
 videogames[which.min(videogames$positive_ratings), columns]
 videogames[which.min(videogames$negative_ratings), columns]
 videogames[which.max(videogames$positive_ratings), columns]
 videogames[which.max(videogames$negative_ratings), columns]
 
-# ¿Qué videojuego ha sido el más/menos jugado?
-columns <- c("name", "release_date", "average_playtime", "median_playtime")
-videogames[which.min(videogames$average_playtime), columns]
-videogames[which.max(videogames$average_playtime), columns]
-videogames[which.min(videogames$median_playtime), columns]
-videogames[which.max(videogames$median_playtime), columns]
 
 # ¿Qué género resulta más/menos rentable?
 
