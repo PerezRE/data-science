@@ -1,4 +1,4 @@
-### Varaibles
+### Variables
 
 * name: Nombre del juego
 * release_date: Fecha de salida del juego
