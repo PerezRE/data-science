@@ -6,8 +6,8 @@ library(tidyverse)
 
 # Leemos los datos
 videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/Dataset_Videojuegos.csv", header=TRUE))
-videogames<-videogames%>% filter(genre_Indie=TRUE)
 
+videogames<-videogames%>% filter(genre_Indie=TRUE)
 # Revisamos la estructura del data frame
 class(videogames); str(videogames);
 
@@ -33,6 +33,10 @@ videogames[which.min(filter(videogames,median_playtime>0)$median_playtime), colu
 #El mas jugado tomando la media 
 videogames[which.max(videogames$median_playtime), columns]
 
+#Grafica de average_playtime
+
+#Grafica de median_playtime
+
 #===================== ¿Qué videojuego es el mejor/peor valorado?==========================
 columns <- c("name", "positive_ratings", "negative_ratings", "release_date")
 videogames[which.min(videogames$positive_ratings), columns]
@@ -40,22 +44,14 @@ videogames[which.min(videogames$negative_ratings), columns]
 videogames[which.max(videogames$positive_ratings), columns]
 videogames[which.max(videogames$negative_ratings), columns]
 
+# ¿Cual es el desarrollador mas popular?
 
-# ¿Qué género resulta más/menos rentable?
-
-
-# ¿Qué género se ha jugado en los últimos años?
-## ¿A través de series de tiempo?
-
-# ¿Qué videojuego resultó más económico y caro?
+# # ¿Cual es el videojuego mas caro/barato?
 columns <- c("name", "release_date", "price", "publisher")
 videogames[which.min(videogames$price), columns]
 videogames[which.max(videogames$price), columns]
 
-# ¿Cuál género resulta más caro/económico?
-# TODO:
-# 1. Obtener los generos.
-# 2. Ver cual resulta más caro & económico.
+#¿Que desarrollador obtiene los mejores puntajes de la critica/usuarios?
 
 # Análisis exploratorio
 # TODO:
