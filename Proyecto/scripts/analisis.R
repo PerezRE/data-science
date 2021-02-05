@@ -5,13 +5,13 @@ library(tidyverse)
 # TODO: Escribir las interrogantes en el archivo Readme.md (solo están algunas)
 
 # Leemos los datos
-videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/Dataset_Videojuegos.csv", header=TRUE))
+videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/dataset.csv", header=TRUE))
 
 videogames<-videogames%>% filter(genre_Indie=TRUE)
 # Revisamos la estructura del data frame
 class(videogames); str(videogames);
 
-# Visualizamos un resumen para cada variable de los datos obtenidos.
+# Visualizamos un resumen para cada variable de los dtouch Proye  btenidos.
 summary(videogames)
 
 # Correción del data frame
