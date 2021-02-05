@@ -1,4 +1,4 @@
-### Variables
+### Variables de *dataset.csv*
 
 * name: Nombre del juego
 * release_date: Fecha de salida del juego
