@@ -92,5 +92,5 @@ data.Juegos<-select(data.Juegos,-nombre,-platforms,-categories,-genres)
 data.Juegos<-select(data.Juegos,-Title,-Columna1,-appid)
 
 #Creamos el csv
-write.csv(data.Juegos,file="DatosJuegos.csv")
+write.csv(data.Juegos,file="dataset.csv")
 

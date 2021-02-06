@@ -7,7 +7,7 @@ library(tidyverse)
 # Leemos los datos
 videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/dataset.csv", header=TRUE))
 
-videogames<-videogames%>% filter(genre_Indie=TRUE)
+videogames <- videogames %>% filter(genre_Indie=TRUE)
 # Revisamos la estructura del data frame
 class(videogames); str(videogames);
 
@@ -33,9 +33,9 @@ videogames[which.min(filter(videogames,median_playtime>0)$median_playtime), colu
 #El mas jugado tomando la media 
 videogames[which.max(videogames$median_playtime), columns]
 
-#Grafica de average_playtime
+# Grafica de average_playtime
 
-#Grafica de median_playtime
+# Grafica de median_playtime
 
 #===================== ¿Qué videojuego es el mejor/peor valorado?==========================
 columns <- c("name", "positive_ratings", "negative_ratings", "release_date")
@@ -46,12 +46,12 @@ videogames[which.max(videogames$negative_ratings), columns]
 
 # ¿Cual es el desarrollador mas popular?
 
-# # ¿Cual es el videojuego mas caro/barato?
+# ¿Cual es el videojuego mas caro/barato?
 columns <- c("name", "release_date", "price", "publisher")
 videogames[which.min(videogames$price), columns]
 videogames[which.max(videogames$price), columns]
 
-#¿Que desarrollador obtiene los mejores puntajes de la critica/usuarios?
+# ¿Qué desarrollador obtiene los mejores puntajes de la critica/usuarios?
 
 # Análisis exploratorio
 # TODO:
@@ -59,8 +59,13 @@ videogames[which.max(videogames$price), columns]
   # Del ejemplo: my_scatplot + facet_wrap("cyl")
   # Del ejemplo: my_scatplot + facet_grid(am~cyl)
 # 2. Graficar genero contra los precios
+
 # 3. Graficar series de tiempo para generos (eje de las abscisas) contra precios (eje de las ordenadas).
+
 # 4. Graficar series de tiempo para generos (eje de las abscisas) contra horas jugadas (eje de las ordenadas) y analizar si hay una tendencia a la alta en un par de generos.
+
+
+
 # 5. Analizar si existe alguna correlación entre el genero y las horas jugadas.
 
 # 6. (Intento de) Graficar un histograma de las horas jugadas y el nombre del videojuego.
