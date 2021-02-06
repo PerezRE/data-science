@@ -43,7 +43,7 @@ annotation <- data.frame(
 )
 
 ggplot(videogames, aes(x=0, y=average_playtime)) +
-  geom_boxplot(width = 10, outlier.color = "#f5b041", outlier.alpha = 0.6, size = 0.5) +
+  geom_boxplot(width = 10, outlier.color = "#f5b041", outlier.alpha = 0.7, size = 0.5) +
   ggtitle("Tiempo promedio jugado") +
   labs(y = "Tiempo[Horas]") +
   theme_minimal() +
@@ -55,7 +55,9 @@ ggplot(videogames, aes(x=0, y=average_playtime)) +
              size = .8) +
   geom_label(data=annotation, aes( x=x, y=y, label=label),
              color = c('#a569bd','#12a083'), 
-             size=3 , angle=45, fontface="bold" )
+             size=3 , 
+             angle=45, 
+             fontface="bold" )
 
 #Gráfica de median_playtime
 annotation <- data.frame(
@@ -66,7 +68,7 @@ annotation <- data.frame(
 )
 
 ggplot(videogames, aes(x=0, y=median_playtime)) +
-  geom_boxplot(width = 10, outlier.color = "#9ccc65", outlier.alpha = 0.6, size = 0.5) +
+  geom_boxplot(width = 10, outlier.color = "#9ccc65", outlier.alpha = 0.7, size = 0.5) +
   ggtitle('Medias del tiempo jugado') +
   labs(y = 'Tiempo:[Horas]') +
   theme_minimal() +
@@ -78,7 +80,9 @@ ggplot(videogames, aes(x=0, y=median_playtime)) +
              size = .8) +
   geom_label(data=annotation, aes( x=x, y=y, label=label),
              color= c('#2980b9','#a1887f'), 
-             size=3 , angle=45, fontface="bold" )
+             size=3 , 
+             angle=45, 
+             fontface="bold" )
 
 #===================== ¿Qué videojuego es el mejor/peor valorado?==========================
 columns <- c('name', 'positive_ratings', 'negative_ratings', 'release_date')
@@ -103,11 +107,13 @@ videogames[which.min(videogames$price), columns]
 videogames[which.max(videogames$price), columns]
 
 # ¿Cuales son los géneros más implementados en los juegos?
-data.genres<- videogames %>% select(grep(pattern = "genre_", names(videogames)))
+data.genres<- videogames %>% select(starts_with('genre_'))
 colnames(data.genres) <- gsub("genre_","",names(data.genres))
 
-data.genres<- as.data.frame(cbind(names(data.genres),as.vector(colSums(data.genres[,names(data.genres)]))))
-data.genres<- data.genres %>% mutate(V2 = as.numeric(V2)) %>% filter(V2>0 & V1!="Indie")
+data.genres<- as.data.frame(cbind(names(data.genres),apply(data.genres, 2, sum)))
+data.genres<- data.genres %>% 
+  mutate(V2 = as.numeric(V2)) %>% 
+  filter(V2>0 & V1!="Indie")
 
 ggplot(data.genres, aes(V1,V2, fill = V1)) +
   geom_bar(stat = 'identity') +
@@ -117,15 +123,18 @@ ggplot(data.genres, aes(V1,V2, fill = V1)) +
     legend.position = "none",
     axis.text.x = element_text(angle = 90)
   )
+
 summary(data.genres)
 tail(data.genres%>%arrange(V2))
 
 # ¿Cuales son las categorías más implementadas en los juegos?
-data.categories<- videogames %>% select(grep(pattern = "categorie_", names(videogames)))
+data.categories<- videogames %>% select(starts_with('categorie_'))
 colnames(data.categories) <- gsub('categorie_','',names(data.categories))
 
-data.categories<- as.data.frame(cbind(names(data.categories),as.vector(colSums(data.categories[,names(data.categories)]))))
-data.categories<- data.categories %>% mutate(V2 = as.numeric(V2)) %>% filter(V2>0)
+data.categories<- as.data.frame(cbind(names(data.categories),apply(data.categories, 2, sum)))
+data.categories<- data.categories %>% 
+  mutate(V2 = as.numeric(V2)) %>% 
+  filter(V2 > 0)
 
 ggplot(data.categories, aes(V1,V2, fill = V1)) +
   geom_bar(stat = 'identity') +
@@ -141,11 +150,13 @@ tail(data.categories %>% arrange(V2))
 
 
 # ¿Cual es la plataforma preferida por los desarrolladores?
-data.plataforms<- videogames %>% select(grep(pattern = 'platform_', names(videogames)))
+data.plataforms<- videogames %>% select(starts_with('platform_'))
 colnames(data.plataforms) <- gsub('platform_','',names(data.plataforms))
 
-data.plataforms<- as.data.frame(cbind(names(data.plataforms),as.vector(colSums(data.plataforms[,names(data.plataforms)]))))
-data.plataforms<- data.plataforms %>% mutate(V2 = as.numeric(V2)) %>% filter(V2>0)
+data.plataforms<- as.data.frame(cbind(names(data.plataforms),apply(data.plataforms, 2, sum)))
+data.plataforms<- data.plataforms %>% 
+  mutate(V2 = as.numeric(V2)) %>% 
+  filter(V2 > 0)
 
 ggplot(data.plataforms, aes(V1,V2, fill = V1)) +
   geom_bar(stat = 'identity') +
@@ -158,7 +169,6 @@ ggplot(data.plataforms, aes(V1,V2, fill = V1)) +
 
 summary(data.plataforms)
 tail(data.plataforms %>% arrange(V2))
-
 
 #¿Que desarrollador obtiene los mejores puntajes de la critica/usuarios?
 

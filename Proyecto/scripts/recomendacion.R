@@ -19,13 +19,10 @@ cos_sim <- function(a, b) {
 videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/dataset.csv", header=TRUE))
 
 # Seleccionar variables definidas para categorias.
-categories <- videogames %>% select(starts_with("Categorie"))
+categories <- videogames %>% select(starts_with("Categorie_"))
 
 # Convertir de tipo lógico a númerico.
 categories <- na.omit(lapply(categories[, colnames(categories)], as.numeric))
-
-# Eliminar columna de NA's generadas en el paso anterior.
-categories$categories <- NULL
 
 # Entrada simualada de los generos de un videojuego de un "usuario". (Vector generado de forma aleatoria).
 input <- floor(runif(length(categories), min=0, max=2))
@@ -46,13 +43,10 @@ input <- floor(runif(length(categories), min=0, max=2))
 
 # Generos de videojuegos.
 # Seleccionar variables definidas para generos.
-genres <- videogames %>% select(starts_with("genre"))
+genres <- videogames %>% select(starts_with("genre_"))
 
 # Convertir de tipo lógico a númerico.
 genres <- na.omit(lapply(genres[, colnames(genres)], as.numeric))
-
-# Eliminar columna de NA's generadas en el paso anterior.
-genres$genres <- NULL
 
 # Entrada simualada de generos de un "usuario". (Vector generado de forma aleatoria).
 input <- floor(runif(length(genres), min=0, max=2))
