@@ -18,37 +18,68 @@ cos_sim <- function(a, b) {
 # Dataset
 videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/dataset.csv", header=TRUE))
 
-# Seleccionar variables definidas para categorias.
-categories <- videogames %>% select(starts_with("Categorie_"))
+#Aseguramos dejar a los desarrolladores independientes en el data frame
+videogames<- videogames %>% filter(genre_Indie == TRUE)
 
-# Convertir de tipo lógico a númerico.
-categories <- na.omit(lapply(categories[, colnames(categories)], as.numeric))
+#Filtrado para eliminar columnas vacías creadas durante la unión de los data sets
+s<-c()
+for (i in 1:length(videogames)) {
+  if(is.logical(videogames[,i])){
+    if(sum(videogames[,i]) == 0){
+      s <- c(s,i)
+    }
+  }
+}
+videogames <- videogames[,-s]
 
-# Entrada simualada de los generos de un videojuego de un "usuario". (Vector generado de forma aleatoria).
-input <- floor(runif(length(categories), min=0, max=2))
+#Corrige las filas y las colmnas del data frame
+videogames <- videogames[!duplicated(videogames),]
+videogames <- videogames %>% mutate(release_date = as.Date(release_date, format = "%d/%m/%Y"))
+videogames <- arrange(videogames, release_date)
 
-# A) Se calculan las similitudes a partir del vector input, donde cada índice del vector representa una categoria.
-# Para cada juego (row-fila) en categories, hacer:
-#   similarities.append(videojuego_id, cos_sim(input, categories[row,]))
-# similarities.sort.desc()
-# obtener los primeros n videojuegos similares y mostrarlos.
+# ========================== De aquí en adelante fue lo que se copio ===========================#
 
-# i.e. if cos_sim(input, categories[row, ]) == 0: 
-#         "No hay similitud, son vectores ortogonales."
-#       elseif cos_sim == 1:
-#         "Es 100% seguro que al usuario le gusten las categorias marcadas como 1 en categories[row,] (Del Videojuego en sí)."
-#       else cos_sim()
-#         "Hay cierto grado de similitud entre el input y el videojuego (categories[row,])."
+Simil <- function(x){
+  
+  # Seleccionar variables definidas para categorias.
+  datos <- videogames %>% select(starts_with(x))
+  
+  # Convertir de tipo lógico a númerico.
+  datos <- na.omit(lapply(datos[, colnames(datos)], as.numeric))
+  datos <- as.data.frame(do.call("cbind",datos))
+  
+  # Entrada simualada de los generos de un videojuego de un "usuario". (Vector generado de forma aleatoria).
+  input <- floor(runif(nrow(datos), min=0, max=2))
+  
+  # A) Se calculan las similitudes a partir del vector input, donde cada índice del vector representa una categoria.
+  # Para cada juego (row-fila) en datos, hacer:
+  #   similarities.append(videojuego_id, cos_sim(input, datos[row,]))
+  
+  similarities <- as.data.frame(apply(datos, 2, cos_sim, input))
+  colnames(similarities) <- "similitud"
+  
+  # similarities.sort.desc()
+  similarities <- arrange(similarities, desc(similitud))
+  
+  # obtener los primeros n videojuegos similares y mostrarlos.
+  
+  # i.e. if cos_sim(input, datos[row, ]) == 0: 
+  #         "No hay similitud, son vectores ortogonales."
+  #       elseif cos_sim == 1:
+  #         "Es 100% seguro que al usuario le gusten las categorias marcadas como 1 en datos[row,] (Del Videojuego en sí)."
+  #       else cos_sim()
+  #         "Hay cierto grado de similitud entre el input y el videojuego (datos[row,])."
 
+  similarities <- similarities %>% 
+    plyr::mutate(mensaje = 
+                   dplyr::case_when(similitud == 0 ~ "No hay similitud, son vectores ortogonales",
+                                    similitud == 1 ~ "Es 100% seguro que al usuario le guste",
+                                    TRUE ~ "Hay cierto grado de similitud"))
+  return(similarities)
+}
 
-# Generos de videojuegos.
-# Seleccionar variables definidas para generos.
-genres <- videogames %>% select(starts_with("genre_"))
+# Categorías de juegos
+categories <- Simil("categorie_")
 
-# Convertir de tipo lógico a númerico.
-genres <- na.omit(lapply(genres[, colnames(genres)], as.numeric))
-
-# Entrada simualada de generos de un "usuario". (Vector generado de forma aleatoria).
-input <- floor(runif(length(genres), min=0, max=2))
-
-# Aplicar mismo algoritmo que en el inciso A).
+# Generos de juegos
+genres <- Simil("genre_")

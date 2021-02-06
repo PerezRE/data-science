@@ -1,6 +1,8 @@
 library(dplyr)
 library(ggplot2)
 library(tidyverse)
+library(geometry)
+library(data.table)
 
 # TODO: Escribir las interrogantes en el archivo Readme.md (solo están algunas)
 
@@ -10,9 +12,20 @@ videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datasc
 #Aseguramos dejar a los desarrolladores independientes en el data frame
 videogames<- videogames %>% filter(genre_Indie == TRUE)
 
+#Filtrado para eliminar columnas vacías creadas durante la unión de los data sets
+s<-c()
+for (i in 1:length(videogames)) {
+  if(is.logical(videogames[,i])){
+    if(sum(videogames[,i]) == 0){
+      s <- c(s,i)
+    }
+  }
+}
+videogames <- videogames[,-s]
+
 #Corrige las filas y las colmnas del data frame
 videogames <- videogames[!duplicated(videogames),]
-videogames <- videogames %>% mutate(release_date = as.Date(release_date, format = "%Y-%m-%d"))
+videogames <- videogames %>% mutate(release_date = as.Date(release_date, format = "%d/%m/%Y"))
 videogames <- arrange(videogames, release_date)
 
 # Revisamos la estructura del data frame
@@ -107,15 +120,15 @@ videogames[which.min(videogames$price), columns]
 videogames[which.max(videogames$price), columns]
 
 # ¿Cuales son los géneros más implementados en los juegos?
-data.genres<- videogames %>% select(starts_with('genre_'))
-colnames(data.genres) <- gsub("genre_","",names(data.genres))
+genres<- videogames %>% select(starts_with('genre_'))
+colnames(genres) <- gsub("genre_","",names(genres))
 
-data.genres<- as.data.frame(cbind(names(data.genres),apply(data.genres, 2, sum)))
-data.genres<- data.genres %>% 
+genres<- as.data.frame(cbind(names(genres),apply(genres, 2, sum)))
+genres<- genres %>% 
   mutate(V2 = as.numeric(V2)) %>% 
-  filter(V2>0 & V1!="Indie")
+  filter(V1!="Indie")
 
-ggplot(data.genres, aes(V1,V2, fill = V1)) +
+ggplot(genres, aes(V1,V2, fill = V1)) +
   geom_bar(stat = 'identity') +
   labs(x = 'Género', y = 'Cantidad de Juegos', title = 'Frecuencia de Géneros') +
   theme_minimal() +
@@ -124,19 +137,18 @@ ggplot(data.genres, aes(V1,V2, fill = V1)) +
     axis.text.x = element_text(angle = 90)
   )
 
-summary(data.genres)
-tail(data.genres%>%arrange(V2))
+summary(genres)
+tail(genres%>%arrange(V2))
 
 # ¿Cuales son las categorías más implementadas en los juegos?
-data.categories<- videogames %>% select(starts_with('categorie_'))
-colnames(data.categories) <- gsub('categorie_','',names(data.categories))
+categories<- videogames %>% select(starts_with('categorie_'))
+colnames(categories) <- gsub('categorie_','',names(categories))
 
-data.categories<- as.data.frame(cbind(names(data.categories),apply(data.categories, 2, sum)))
-data.categories<- data.categories %>% 
-  mutate(V2 = as.numeric(V2)) %>% 
-  filter(V2 > 0)
+categories<- as.data.frame(cbind(names(categories),apply(categories, 2, sum)))
+categories<- categories %>% 
+  mutate(V2 = as.numeric(V2))
 
-ggplot(data.categories, aes(V1,V2, fill = V1)) +
+ggplot(categories, aes(V1,V2, fill = V1)) +
   geom_bar(stat = 'identity') +
   labs(x = 'Categoria', y = 'Cantidad de Juegos', title = 'Frecuencia de Categorias') +
   theme_minimal() +
@@ -145,20 +157,20 @@ ggplot(data.categories, aes(V1,V2, fill = V1)) +
     axis.text.x = element_text(angle = 90)
   )
 
-summary(data.categories)
-tail(data.categories %>% arrange(V2))
+summary(categories)
+tail(categories %>% arrange(V2))
 
 
 # ¿Cual es la plataforma preferida por los desarrolladores?
-data.plataforms<- videogames %>% select(starts_with('platform_'))
-colnames(data.plataforms) <- gsub('platform_','',names(data.plataforms))
+plataforms<- videogames %>% select(starts_with('platform_'))
+colnames(plataforms) <- gsub('platform_','',names(plataforms))
 
-data.plataforms<- as.data.frame(cbind(names(data.plataforms),apply(data.plataforms, 2, sum)))
-data.plataforms<- data.plataforms %>% 
+plataforms<- as.data.frame(cbind(names(plataforms),apply(plataforms, 2, sum)))
+plataforms<- plataforms %>% 
   mutate(V2 = as.numeric(V2)) %>% 
   filter(V2 > 0)
 
-ggplot(data.plataforms, aes(V1,V2, fill = V1)) +
+ggplot(plataforms, aes(V1,V2, fill = V1)) +
   geom_bar(stat = 'identity') +
   labs(x = 'Plataformas', y = 'Cantidad de Juegos', title = 'Plataformas') +
   theme_minimal() +
@@ -167,8 +179,8 @@ ggplot(data.plataforms, aes(V1,V2, fill = V1)) +
     axis.text.x = element_text(angle = 90)
   )
 
-summary(data.plataforms)
-tail(data.plataforms %>% arrange(V2))
+summary(plataforms)
+tail(plataforms %>% arrange(V2))
 
 #¿Que desarrollador obtiene los mejores puntajes de la critica/usuarios?
 
@@ -226,3 +238,62 @@ ggplot(videogames) +
 # X6: release_date: Fecha de lanzamiento.
 model <- lm(videogames$price ~ videogames$achievements + videogames$release_date)
 summary(model)
+
+# Recomendaciones
+
+# Vector normal
+norm_vec <- function(x) sqrt(sum(x^2))
+
+# Cosine angle
+cos_sim <- function(a, b) {
+  norm_a <- norm_vec(a)
+  norm_b <- norm_vec(b)
+  # 0 no similitud | 1 similitud
+  return(dot(a, b) / (norm_a * norm_b))
+}
+
+# Similitudes
+Simil <- function(x){
+  
+  # Seleccionar variables definidas para categorias.
+  datos <- videogames %>% select(starts_with(x))
+  
+  # Convertir de tipo lógico a númerico.
+  datos <- na.omit(lapply(datos[, colnames(datos)], as.numeric))
+  datos <- as.data.frame(do.call("cbind",datos))
+  
+  # Entrada simualada de los generos de un videojuego de un "usuario". (Vector generado de forma aleatoria).
+  input <- floor(runif(nrow(datos), min=0, max=2))
+  
+  # A) Se calculan las similitudes a partir del vector input, donde cada índice del vector representa una categoria.
+  # Para cada juego (row-fila) en datos, hacer:
+  #   similarities.append(videojuego_id, cos_sim(input, datos[row,]))
+  
+  similarities <- as.data.frame(apply(datos, 2, cos_sim, input))
+  colnames(similarities) <- "similitud"
+  
+  # similarities.sort.desc()
+  similarities <- arrange(similarities, desc(similitud))
+  
+  # obtener los primeros n videojuegos similares y mostrarlos.
+  
+  # i.e. if cos_sim(input, datos[row, ]) == 0: 
+  #         "No hay similitud, son vectores ortogonales."
+  #       elseif cos_sim == 1:
+  #         "Es 100% seguro que al usuario le gusten las categorias marcadas como 1 en datos[row,] (Del Videojuego en sí)."
+  #       else cos_sim()
+  #         "Hay cierto grado de similitud entre el input y el videojuego (datos[row,])."
+  
+  similarities <- similarities %>% 
+    plyr::mutate(mensaje = 
+                   dplyr::case_when(similitud == 0 ~ "No hay similitud, son vectores ortogonales",
+                                    similitud == 1 ~ "Es 100% seguro que al usuario le guste",
+                                    TRUE ~ "Hay cierto grado de similitud"))
+  return(similarities)
+}
+
+# Categorías de juegos
+categories <- Simil("categorie_")
+
+# Generos de juegos
+genres <- Simil("genre_")
