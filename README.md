@@ -18,4 +18,4 @@
 * [Sesión 8: Dashboards con Shiny - Entorno GUI](https://github.com/PerezRE/datascience/tree/main/Postworks/Postwork%20Sesi%C3%B3n%208)
 
 ### Proyecto
-[working on it... please be patient :)](...)
+[Análisis estadístico de videojeugos en Steam](https://github.com/PerezRE/datascience/tree/main/Proyecto)
