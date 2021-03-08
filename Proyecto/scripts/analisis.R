@@ -2,8 +2,6 @@ library(dplyr)
 library(ggplot2)
 library(tidyverse)
 
-# TODO: Escribir las interrogantes en el archivo Readme.md (solo están algunas)
-
 # Leemos los datos
 videogames <- na.omit(read.csv("https://raw.githubusercontent.com/PerezRE/datascience/main/Proyecto/data/dataset.csv", header=TRUE))
 
@@ -43,7 +41,7 @@ videogames[which.min(videogames$positive_ratings), columns]
 videogames[which.min(videogames$negative_ratings), columns]
 videogames[which.max(videogames$positive_ratings), columns]
 videogames[which.max(videogames$negative_ratings), columns]
-
+*
 # ¿Cual es el desarrollador mas popular?
 
 # ¿Cual es el videojuego mas caro/barato?
